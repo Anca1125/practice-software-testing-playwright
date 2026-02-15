@@ -1,0 +1,21 @@
+{
+                  "validUser":{
+                                    "email":"customer@practicesoftwaretesting.com",
+                                    "password":"Password123"
+                  }, 
+                  "invalidEmail":{
+                                    "email": "wrong@example.com",
+                                    "password": "WrongPassword"
+                  },
+                  "invalidPassword":{
+                  "email": "customer@practicesoftwaretesting.com",
+                  "password": "WrongPassword"},
+
+                  "blank fields" :{"email":"",
+                  "password": ""
+                  },  
+                  "invalidFormatEmail": {
+                  "email": "854u84yt895y8yr.com",
+                  "password":"Password123"
+                     }          
+}
