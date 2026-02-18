@@ -243,4 +243,53 @@ test.describe("Products catalog", () => {
     await expect(homePage.activePage).toHaveText("1");
     await expect(homePage.previousButton.locator("..")).toHaveClass(/disabled/);
   });
+  test("catalog products - homepage - user is able to search products", async ({
+    page,
+  }) => {
+    const searchTerm = "Pliers";
+
+    await homePage.searchProduct(searchTerm);
+
+    await expect
+      .poll(async () => {
+        const names = await homePage.productsCard.allTextContents();
+
+        return names.every((name) =>
+          name.toLowerCase().includes(searchTerm.toLowerCase()),
+        );
+      })
+      .toBe(true);
+  });
+  test("catalog products - homepage - should return no result for invalid query", async ({
+    page,
+  }) => {
+    await homePage.searchProduct("ciocan");
+    await expect(homePage.productsCard).toHaveCount(0);
+    await expect(homePage.noResultsMessage).toBeVisible();
+  });
+  test("catalog products - homepage - should work with lower case input", async ({
+    page,
+  }) => {
+    const searchTerm = "pliers";
+
+    await homePage.searchProduct(searchTerm);
+
+    await expect(homePage.productsCard.first()).toContainText("Pliers");
+  });
+  test("catalog products - homepage - should work with partial match", async ({
+    page,
+  }) => {
+    const searchTerm = "pli";
+
+    await homePage.searchProduct(searchTerm);
+
+    await expect(homePage.productsCard.first()).toBeVisible();
+
+    const names = await homePage.productsCard.allTextContents();
+
+    const hasMatch = names.some((name) =>
+      name.toLowerCase().includes(searchTerm),
+    );
+    expect(hasMatch).toBeTruthy();
+  });
 });

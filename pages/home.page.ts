@@ -32,6 +32,9 @@ export class HomePage extends BasePage {
   readonly activePage: Locator;
   readonly nextButton: Locator;
   readonly previousButton: Locator;
+  readonly searchInput: Locator;
+  readonly searchButton: Locator;
+  readonly noResultsMessage: Locator;
   constructor(page: Page) {
     super(page);
     this.productsCard = page.locator('[data-test="product-name"]');
@@ -67,6 +70,9 @@ export class HomePage extends BasePage {
     this.activePage = this.pagination.locator(".page-item.active .page-link");
     this.nextButton = this.pagination.getByLabel(/next/i);
     this.previousButton = this.pagination.getByLabel(/previous/i);
+    this.searchInput = page.locator('[data-test="search-query"]');
+    this.searchButton = page.locator('[data-test="search-submit"]');
+    this.noResultsMessage = page.locator('[data-test="search_completed"]');
   }
 
   async navigateToHome() {
@@ -142,5 +148,9 @@ export class HomePage extends BasePage {
   }
   getPageButton(pageNumber: number) {
     return this.pagination.getByRole("button", { name: `Page-${pageNumber}` });
+  }
+  async searchProduct(value: string) {
+    await this.searchInput.fill(value);
+    await this.searchButton.click();
   }
 }
