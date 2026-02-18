@@ -103,9 +103,9 @@ test.describe("Products catalog", () => {
           parseFloat(p.replace("$", "").trim()),
         );
 
-        const sorted = [...prices].sort((a, b) => a - b);
-
-        return prices.join() === sorted.join();
+        return prices.every(
+          (price, index, arr) => index === 0 || arr[index - 1] <= price,
+        );
       })
       .toBe(true);
   });
