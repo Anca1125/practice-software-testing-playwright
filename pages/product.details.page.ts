@@ -1,4 +1,4 @@
-import { Page, Locator } from "@playwright/test";
+import { Page, Locator, expect } from "@playwright/test";
 import { BasePage } from "./BasePage";
 
 export class ProductDetailsPage extends BasePage {
@@ -42,6 +42,7 @@ export class ProductDetailsPage extends BasePage {
   async goToProductDetails() {
     await this.navigate("/");
     await this.productLinks.first().click();
+    await expect(this.addToCartProduct).toBeVisible();
   }
   async setInputQuantity(inputNumber: number) {
     await this.productQuantity.fill(inputNumber.toString());
