@@ -57,6 +57,7 @@ test.describe("cart", () => {
       "The cart is empty. Nothing to display.",
     );
   });
+
   test.fixme(// Known bug: cart allows negative quantity and checkout
   "cart - guest user - should not allow checkout with negative quantity ", async ({
     page,
@@ -65,5 +66,17 @@ test.describe("cart", () => {
     await expect(cartPage.productQuantity).not.toHaveValue("-5");
     await cartPage.proceedToCheckout.click();
     await expect(page).not.toHaveURL(/success/);
+  });
+
+  test("cart - guest user - continue shopping should return to homepage", async ({
+    page,
+  }) => {
+    await cartPage.continueShopping.click();
+
+    await expect(page).toHaveURL("/");
+
+    await cartPage.openCart();
+
+    await expect(cartPage.productName).toBeVisible();
   });
 });
